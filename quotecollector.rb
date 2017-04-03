@@ -13,13 +13,18 @@ class QuoteCollector < Multilinguist
     @quote_collection << {"quote" => quote_text, "topic" => topic_label}
   end
 
-  def random_quote
-    return say_in_local_language("#{@quote_collection.sample["quote"]}")
+  def random_quote(topic_label = "")
+    if topic_label == ""
+      return say_in_local_language("#{@quote_collection.sample["quote"]}")
+      #returns random quote, regardless of topic_label
+
+    elsif topic_label != ""
+      matches = @quote_collection.select { |q| q["topic"] == topic_label }
+      return say_in_local_language("#{matches.sample["quote"]}")
+
+      end
   end
 
-  def random_quote_topic(topic_label)
-    return say_in_local_language(quote_collection.find { |q| q["topic"] == topic_label }["quote"])
-  end
 
 
 end
